@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
-import Keycloak from 'keycloak-js';
+import type { KeycloakInstance } from 'keycloak-js';
 
-let keycloakInstance: Keycloak.KeycloakInstance | null = null;
+let keycloakInstance: KeycloakInstance | null = null;
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
@@ -19,7 +19,7 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-export const setKeycloakInstance = (instance: Keycloak.KeycloakInstance) => {
+export const setKeycloakInstance = (instance: KeycloakInstance) => {
   keycloakInstance = instance;
 };
 
