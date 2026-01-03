@@ -2,6 +2,15 @@
 
 Портал для управления заявками на открытие сетевых доступов
 
+## ⚠️ Важно: Исправление ошибки базы данных
+
+Если вы получили ошибку при старте приложения:
+```
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.DuplicateTable) relation "idx_created_at" already exists
+```
+
+**Этот баг был исправлен!** Читайте [BUGFIX_DUPLICATE_INDEXES.md](./BUGFIX_DUPLICATE_INDEXES.md) для подробных инструкций по исправлению.
+
 ## Функционал
 
 - Аутентификация через Keycloak (OAuth2/OIDC)
@@ -40,7 +49,7 @@
 
 ```
 network-access-portal/
-├── backend/              # Пытон бэкэнд
+├── backend/              # Python бэкэнд
 │   ├── app/
 │   │   ├── main.py
 │   │   ├── config.py
@@ -57,7 +66,6 @@ network-access-portal/
 │   │   │   ├── audit.py
 │   │   │   ├── admin.py
 │   │   │   ├── config.py
-│   │   ├── migrations/
 │   ├── requirements.txt
 │   ├── Dockerfile
 │   ├── .env.example
@@ -74,10 +82,14 @@ network-access-portal/
 │   ├── package.json
 │   ├── tsconfig.json
 │   ├── Dockerfile
+├── postgres-init/        # SQL скрипты инициализации БД
+│   ├── 01-init.sql
+│   ├── 02-fix-duplicate-indexes.sql
 ├── docker-compose.yml
-├─┠─ .env.example
+├── .env.example
 ├── .gitignore
 ├── README.md
+├── BUGFIX_DUPLICATE_INDEXES.md  # Документация по исправлению бага
 ```
 
 ## Поднятие работы
@@ -98,12 +110,12 @@ git clone https://github.com/Dubridze/network-access-portal.git
 cd network-access-portal
 ```
 
-2. Настройте воружение (copy .env.example to .env и адаптируйте параметры)
+2. Настройте окружение (скопируйте .env.example в .env и адаптируйте параметры)
 ```bash
 cp .env.example .env
 ```
 
-3. Подняте сервисы
+3. Поднимите сервисы
 ```bash
 docker-compose up -d
 ```
@@ -117,6 +129,25 @@ http://localhost:3000
 
 ```
 http://localhost:8000/docs
+```
+
+## Устранение неполадок
+
+### Ошибка при старте: DuplicateTable
+См. [BUGFIX_DUPLICATE_INDEXES.md](./BUGFIX_DUPLICATE_INDEXES.md) для решения проблемы с индексами БД.
+
+### Проблемы с Keycloak
+- Убедитесь, что Keycloak запущен и доступен
+- Проверьте конфигурацию в `.env` файле
+- Убедитесь, что realm и client настроены правильно
+
+### Проблемы с подключением к БД
+```bash
+# Проверьте статус контейнера
+docker-compose ps
+
+# Посмотрите логи
+docker-compose logs db
 ```
 
 ## Лицензия
