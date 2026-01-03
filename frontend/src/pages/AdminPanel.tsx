@@ -67,7 +67,7 @@ const AdminPanel: React.FC = () => {
 
       <Card>
         <CardContent>
-          <Tabs value={tabValue} onChange={(e, v) => setTabValue(v)} sx={{ mb: 2 }}>
+          <Tabs value={tabValue} onChange={(_e, v) => setTabValue(v)} sx={{ mb: 2 }}>
             <Tab label="Users" />
             <Tab label="Configuration" />
           </Tabs>
