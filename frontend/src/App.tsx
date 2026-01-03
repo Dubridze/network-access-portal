@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Keycloak from 'keycloak-js';
+import type { KeycloakInstance } from 'keycloak-js';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Layout from './components/Layout';
@@ -61,7 +62,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const [keycloak, setKeycloak] = useState<Keycloak.KeycloakInstance | null>(null);
+  const [keycloak, setKeycloak] = useState<KeycloakInstance | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
