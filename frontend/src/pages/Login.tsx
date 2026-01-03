@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Card, CardContent, Button, Typography, Container, CircularProgress } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const { keycloak } = useAuth();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
     setIsLoading(true);
