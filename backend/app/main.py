@@ -22,8 +22,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Create tables (checkfirst=True prevents duplicate errors)
+Base.metadata.create_all(bind=engine, checkfirst=True)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
