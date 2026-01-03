@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosError } from 'axios';
 import type { KeycloakInstance } from 'keycloak-js';
 
 let keycloakInstance: KeycloakInstance | null = null;
@@ -12,18 +12,46 @@ const client: AxiosInstance = axios.create({
   },
 });
 
-client.interceptors.request.use((config) => {
-  if (keycloakInstance?.token) {
-    config.headers.Authorization = `Bearer ${keycloakInstance.token}`;
+client.interceptors.request.use(
+  (config) => {
+    if (keycloakInstance?.token) {
+      config.headers.Authorization = `Bearer ${keycloakInstance.token}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.error('Request interceptor error:', error);
+    return Promise.reject(error);
   }
-  return config;
-});
+);
+
+client.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    console.error('API Error:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+      url: error.config?.url,
+    });
+    return Promise.reject(error);
+  }
+);
 
 export const setKeycloakInstance = (instance: KeycloakInstance) => {
   keycloakInstance = instance;
+  console.log('Keycloak instance initialized in API service');
 };
 
 export const apiService = {
+  // Health check
+  healthCheck: () =>
+    axios.get(`${API_URL}/health`).then((res) => res.data).catch((err) => {
+      console.error('Health check failed:', err);
+      throw err;
+    }),
+
   // Access Requests
   createAccessRequest: (data: any) =>
     client.post('/requests', data).then((res) => res.data),
