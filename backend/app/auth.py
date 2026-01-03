@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status, Request
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 from typing import Optional, Dict
 import logging
@@ -12,7 +12,7 @@ security = HTTPBearer()
 
 async def get_current_user(
     request: Request,
-    credentials: Optional[HTTPAuthCredentials] = Depends(security)
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
 ) -> Dict:
     """Extract and validate JWT token from Keycloak"""
     
