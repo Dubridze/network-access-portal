@@ -1,8 +1,8 @@
 import { createContext, useContext, ReactNode } from 'react';
-import type Keycloak from 'keycloak-js';
+import type { KeycloakInstance } from 'keycloak-js';
 
 interface AuthContextType {
-  keycloak: Keycloak.KeycloakInstance;
+  keycloak: KeycloakInstance;
   isAuthenticated: boolean;
   user: any;
   hasRole: (role: string) => boolean;
@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
-  keycloak: Keycloak.KeycloakInstance;
+  keycloak: KeycloakInstance;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children, keycloak }) => {
