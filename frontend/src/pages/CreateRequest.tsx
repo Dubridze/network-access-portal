@@ -80,7 +80,7 @@ const CreateRequest: React.FC = () => {
                 <TextField
                   label="Destination IP"
                   name="destination_ip"
-                  value={formData.destination_ip}"
+                  value={formData.destination_ip}
                   onChange={handleChange}
                   fullWidth
                   required
