@@ -16,7 +16,6 @@ engine = create_engine(
     pool_pre_ping=True,
     connect_args={
         "connect_timeout": 10,
-        "check_same_thread": False,
     }
 )
 
