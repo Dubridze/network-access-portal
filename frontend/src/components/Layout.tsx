@@ -20,7 +20,7 @@ import {
   PostAdd as PostAddIcon,
   List as ListIcon,
   CheckCircle as ApprovalIcon,
-  Audit as AuditIcon,
+  History as AuditIcon,
   Settings as AdminIcon,
   Logout as LogoutIcon,
 } from '@mui/icons-material';
