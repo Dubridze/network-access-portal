@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Grid, Typography, LinearProgress } from '@mui/material';
+import { Box, Card, CardContent, Grid, Typography, LinearProgress, Alert, AlertTitle } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -6,14 +6,30 @@ import { useAuth } from '../context/AuthContext';
 const Dashboard: React.FC = () => {
   const { hasRole } = useAuth();
 
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading, error } = useQuery({
     queryKey: ['admin-stats'],
     queryFn: () => apiService.getAdminStats(),
     enabled: hasRole('admin'),
+    retry: 1,
   });
 
   if (isLoading && hasRole('admin')) {
     return <LinearProgress />;
+  }
+
+  if (error && hasRole('admin')) {
+    console.error('Error loading admin stats:', error);
+    return (
+      <Alert severity="error">
+        <AlertTitle>Failed to Load Statistics</AlertTitle>
+        Unable to load admin statistics. Make sure the backend API is running at{' '}
+        {process.env.REACT_APP_API_URL || 'http://localhost:8000'}.
+        <br />
+        <small style={{ marginTop: '8px', display: 'block' }}>
+          Error: {error instanceof Error ? error.message : String(error)}
+        </small>
+      </Alert>
+    );
   }
 
   return (
@@ -30,7 +46,7 @@ const Dashboard: React.FC = () => {
                 <Typography color="textSecondary" gutterBottom>
                   Total Requests
                 </Typography>
-                <Typography variant="h5">{stats.total_requests}</Typography>
+                <Typography variant="h5">{stats.total_requests || 0}</Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -41,7 +57,7 @@ const Dashboard: React.FC = () => {
                   Pending
                 </Typography>
                 <Typography variant="h5" sx={{ color: '#ff9800' }}>
-                  {stats.pending_requests}
+                  {stats.pending_requests || 0}
                 </Typography>
               </CardContent>
             </Card>
@@ -53,7 +69,7 @@ const Dashboard: React.FC = () => {
                   Approved
                 </Typography>
                 <Typography variant="h5" sx={{ color: '#4caf50' }}>
-                  {stats.approved_requests}
+                  {stats.approved_requests || 0}
                 </Typography>
               </CardContent>
             </Card>
@@ -64,7 +80,7 @@ const Dashboard: React.FC = () => {
                 <Typography color="textSecondary" gutterBottom>
                   Users
                 </Typography>
-                <Typography variant="h5">{stats.total_users}</Typography>
+                <Typography variant="h5">{stats.total_users || 0}</Typography>
               </CardContent>
             </Card>
           </Grid>
