@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode } from 'react';
-import Keycloak from 'keycloak-js';
+import type Keycloak from 'keycloak-js';
 
 interface AuthContextType {
   keycloak: Keycloak.KeycloakInstance;
