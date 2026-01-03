@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/api';
@@ -40,7 +39,7 @@ const ApprovalQueue: React.FC = () => {
                 <TableCell colSpan={7} align="center">No pending requests</TableCell>
               </TableRow>
             ) : (
-              results?.requests.map((request) => (
+              results?.requests.map((request: any) => (
                 <TableRow key={request.id}>
                   <TableCell>{request.request_number}</TableCell>
                   <TableCell>{request.user.username}</TableCell>

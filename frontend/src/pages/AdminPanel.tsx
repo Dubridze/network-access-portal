@@ -36,7 +36,7 @@ const AdminPanel: React.FC = () => {
   });
 
   const { mutate: updateUser } = useMutation({
-    mutationFn: (data) => apiService.updateUser(selectedUser.id, data),
+    mutationFn: (data: { role: string }) => apiService.updateUser(selectedUser.id, data),
     onSuccess: () => {
       refetch();
       setOpenDialog(false);
@@ -94,7 +94,7 @@ const AdminPanel: React.FC = () => {
                       <TableCell colSpan={5} align="center">No users found</TableCell>
                     </TableRow>
                   ) : (
-                    users?.map((user) => (
+                    users?.map((user: any) => (
                       <TableRow key={user.id}>
                         <TableCell>{user.username}</TableCell>
                         <TableCell>{user.email}</TableCell>

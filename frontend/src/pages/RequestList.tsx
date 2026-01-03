@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -36,7 +36,7 @@ const RequestList: React.FC = () => {
       }),
   });
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -105,7 +105,7 @@ const RequestList: React.FC = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              results?.requests.map((request) => (
+              results?.requests.map((request: any) => (
                 <TableRow
                   key={request.id}
                   onClick={() => navigate(`/requests/${request.id}`)}

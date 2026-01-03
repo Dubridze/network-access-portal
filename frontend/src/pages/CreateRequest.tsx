@@ -13,6 +13,7 @@ import {
   Select,
   MenuItem,
   Alert,
+  SelectChangeEvent,
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { apiService } from '../services/api';
@@ -31,8 +32,8 @@ const CreateRequest: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const { mutate: createRequest, isPending } = useMutation({
-    mutationFn: (data) => apiService.createAccessRequest(data),
-    onSuccess: (response) => {
+    mutationFn: (data: any) => apiService.createAccessRequest(data),
+    onSuccess: (response: any) => {
       navigate(`/requests/${response.id}`);
     },
     onError: (error: any) => {
@@ -40,11 +41,19 @@ const CreateRequest: React.FC = () => {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }>) => {
-    const { name, value } = e.target as any;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (e: SelectChangeEvent) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name as string]: value,
     }));
   };
 
@@ -114,7 +123,7 @@ const CreateRequest: React.FC = () => {
                   <Select
                     name="protocol"
                     value={formData.protocol}
-                    onChange={handleChange}
+                    onChange={handleSelectChange}
                     label="Protocol"
                   >
                     <MenuItem value="tcp">TCP</MenuItem>

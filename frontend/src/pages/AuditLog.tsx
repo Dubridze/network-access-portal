@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -24,7 +24,7 @@ const AuditLog: React.FC = () => {
     queryFn: () => apiService.getAuditLogs({ skip: page * rowsPerPage, limit: rowsPerPage }),
   });
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -70,7 +70,7 @@ const AuditLog: React.FC = () => {
                 <TableCell colSpan={5} align="center">No audit logs found</TableCell>
               </TableRow>
             ) : (
-              logs?.map((log) => (
+              logs?.map((log: any) => (
                 <TableRow key={log.id}>
                   <TableCell>{log.user.username}</TableCell>
                   <TableCell>

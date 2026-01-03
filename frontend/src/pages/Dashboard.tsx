@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Card, CardContent, Grid, Typography, LinearProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/api';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -177,7 +177,7 @@ const RequestDetail: React.FC = () => {
           {actionType === 'approve' ? (
             <TextField
               fullWidth
-              label="Comment"
+              label="Comment (Optional)"
               value={dialogComment}
               onChange={(e) => setDialogComment(e.target.value)}
               multiline
@@ -199,7 +199,7 @@ const RequestDetail: React.FC = () => {
               variant="contained"
               color={actionType === 'approve' ? 'success' : 'error'}
               onClick={handleDialogSubmit}
-              disabled={isApproving || isRejecting}
+              disabled={isApproving || isRejecting || (actionType === 'reject' && !dialogReason)}
             >
               {actionType === 'approve' ? 'Approve' : 'Reject'}
             </Button>
