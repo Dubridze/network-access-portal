@@ -34,8 +34,8 @@ class Protocol(str, enum.Enum):
 class User(Base):
     __tablename__ = "users"
     __table_args__ = (
-        Index('idx_keycloak_id', 'keycloak_id'),
-        Index('idx_username', 'username'),
+        Index('idx_users_keycloak_id', 'keycloak_id'),
+        Index('idx_users_username', 'username'),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -60,10 +60,13 @@ class User(Base):
 class AccessRequest(Base):
     __tablename__ = "access_requests"
     __table_args__ = (
-        Index('idx_user_id', 'user_id'),
-        Index('idx_status', 'status'),
-        Index('idx_approver_id', 'approver_id'),
-        Index('idx_created_at', 'created_at'),
+        Index('idx_access_requests_user_id', 'user_id'),
+        Index('idx_access_requests_status', 'status'),
+        Index('idx_access_requests_approver_id', 'approver_id'),
+        Index('idx_access_requests_created_at', 'created_at'),
+        Index('idx_access_requests_source_ip', 'source_ip'),
+        Index('idx_access_requests_destination_ip', 'destination_ip'),
+        Index('idx_access_requests_request_number', 'request_number'),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -99,10 +102,10 @@ class AccessRequest(Base):
 class AuditLog(Base):
     __tablename__ = "audit_logs"
     __table_args__ = (
-        Index('idx_user_id', 'user_id'),
-        Index('idx_access_request_id', 'access_request_id'),
-        Index('idx_action', 'action'),
-        Index('idx_created_at', 'created_at'),
+        Index('idx_audit_logs_user_id', 'user_id'),
+        Index('idx_audit_logs_access_request_id', 'access_request_id'),
+        Index('idx_audit_logs_action', 'action'),
+        Index('idx_audit_logs_created_at', 'created_at'),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -128,7 +131,7 @@ class AuditLog(Base):
 class Configuration(Base):
     __tablename__ = "configurations"
     __table_args__ = (
-        Index('idx_key', 'key'),
+        Index('idx_config_key', 'key'),
     )
 
     id = Column(Integer, primary_key=True, index=True)
