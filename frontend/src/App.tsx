@@ -86,10 +86,13 @@ function App() {
           clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
         });
 
+        // Use PKCE flow for public clients
+        // Code exchange is handled by backend proxy endpoint for security
         const authenticated = await keycloakInstance.init({
           onLoad: 'login-required',
           checkLoginIframe: false,
-          pkceMethod: 'S256',
+          pkceMethod: 'S256', // PKCE protocol for public clients
+          enableLogging: process.env.NODE_ENV === 'development',
         });
 
         console.log('Keycloak initialization successful, authenticated:', authenticated);
