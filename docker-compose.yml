@@ -69,6 +69,8 @@ services:
     container_name: nap-backend
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres-app:5432/network_access_portal
+      # Keycloak configuration for backend
+      # Backend uses confidential client with client secret for secure token validation
       KEYCLOAK_SERVER_URL: http://keycloak:8080
       KEYCLOAK_REALM: network-access
       KEYCLOAK_CLIENT_ID: network-portal
@@ -77,7 +79,7 @@ services:
       DEBUG: "False"
       BACKEND_HOST: 0.0.0.0
       BACKEND_PORT: 8000
-      CORS_ORIGINS: '["http://localhost:3000", "http://localhost:8000"]'
+      CORS_ORIGINS: '["http://localhost:3000", "http://localhost:8000", "http://frontend:3000"]'
     ports:
       - "8000:8000"
     depends_on:
@@ -94,6 +96,8 @@ services:
       dockerfile: Dockerfile
     container_name: nap-frontend
     environment:
+      # Frontend uses public client (no secret)
+      # Code-to-token exchange is handled by backend proxy endpoint
       REACT_APP_API_URL: http://localhost:8000
       REACT_APP_KEYCLOAK_URL: http://localhost:8080
       REACT_APP_KEYCLOAK_REALM: network-access
