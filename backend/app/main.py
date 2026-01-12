@@ -13,6 +13,7 @@ from app.routes import users as user_routes
 from app.routes import audit as audit_routes
 from app.routes import admin as admin_routes
 from app.routes import config as config_routes
+from app.routes import auth as auth_routes
 from app.auth import get_current_user
 
 # Configure logging
@@ -50,6 +51,7 @@ app.add_middleware(
 )
 
 # Routes
+app.include_router(auth_routes.router, prefix="/api", tags=["Auth"])
 app.include_router(request_routes.router, prefix="/api/requests", tags=["Requests"])
 app.include_router(user_routes.router, prefix="/api/users", tags=["Users"])
 app.include_router(audit_routes.router, prefix="/api/audit", tags=["Audit"])
